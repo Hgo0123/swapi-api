@@ -1,18 +1,33 @@
 import React from 'react';
-import '../App.scss';
+import { Redirect } from 'react-router-dom'
+import { Component } from 'react';
+
+import './Card.scss';
 
 
 
-const Card = ({ user }) => {
-    return (
-        <div key={user.name} className='card'>
-            <h3>{user.name}</h3>
-            <p>Height : {user.height} cm</p>
-            <p>Weight : {user.mass} kg</p>
-            <p>Hair color : {user.hair_color === 'n/a' ? 'It\'s a robot' : user.hair_color}</p>
-            <p>Skin color : {user.skin_color}</p>
-            <p>Eye color : {user.eye_color}</p>
-        </div>
-    )
+
+class Card extends Component {
+    state = {
+        goToUserPage: false,
+    }
+    handleClick = (event) => {
+        event.preventDefault()
+        this.setState({
+            goToUserPage: true
+        })
+    }
+    render() {
+        if (this.state.goToUserPage === true) {
+            return <Redirect push to={{
+                pathname: `/${this.props.user.name}`,
+                state: { user: this.props.user }
+            }}></ Redirect>
+        }
+        return (
+            <li className="list__elem"> {this.props.user.name} < div className='details' > <a onClick={this.handleClick} className='list__elem__link'>Voir plus...</a></div ></li >
+        )
+
+    }
 }
 export default Card;

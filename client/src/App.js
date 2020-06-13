@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import './App.scss';
+// import './Components/Card.scss';
 
 import Card from './Components/Card';
-import Input from './Components/Input';
+import InputCharacter from './Components/InputCharacter';
 
 
 class App extends Component {
   state = {
     users: [],
     pages: 1,
-    userInput: ''
+    fillWithPlanet: false,
+    fillWithStarship: false
   };
 
   fillState = (data) => {
@@ -18,7 +20,7 @@ class App extends Component {
     })
   }
   componentDidMount() {
-    fetch(`/personnages/page/${this.state.pages}`)
+    fetch(`/personnages/people/page/${this.state.pages}`)
       .then(res => res.json())
       .then(users => this.fillState(users));
   }
@@ -42,40 +44,47 @@ class App extends Component {
     event.preventDefault()
     let pages = this.state.pages
     pages--
+    if (pages <= 1) {
+      pages = 1
+    }
     this.setState({
       pages
     })
   }
-  handleChange = (event) => {
-    let value = event.target.value
-    this.setState({
-      userInput: value
-    })
-  }
-  handleSubmit = () => {
-    fetch(`/personnages/people/${this.state.userInput}`)
-      .then(res => res.json())
-      .then(users => this.fillState(users));
-    this.setState({
-      userInput: ''
-    })
-  }
 
   render() {
+    if (this.state.fillWithPlanet) {
+      fetch(`/personnages/planets/page/${this.state.pages}`)
+        .then(res => res.json())
+        .then(users => this.fillState(users));
+    }
+    if (this.state.fillWithStarship) {
+      fetch(`/personnages/starships/page/${this.state.pages}`)
+        .then(res => res.json())
+        .then(users => this.fillState(users));
+    }
     return (
       <div className="App">
-        <h1>Star Wars Character</h1>
+        <h1>Swapi</h1>
 
-        <Input onChange={this.handleChange} />
-
-        <button onClick={this.handleSubmit}>Search</button>
-        <div className='cards'>
-          {this.state.users.map(user =>
-            <Card user={user} />
-          )}
+        <InputCharacter onChange={this.handleChange} fillState={this.fillState} />
+        <div className='request-container'>
+          <p className='request-container__btn' onClick={() => this.setState({ fillWithPlanet: !this.state.fillWithPlanet, fillWithStarship: false })}>Search by planet</p>
+          <p className='request-container__btn' onClick={() => this.setState({ fillWithStarship: !this.state.fillWithStarship, fillWithPlanet: false })}>Search by starships</p>
         </div>
-        <button onClick={this.previousPage}>Previous page</button>
-        <button onClick={this.nextPage}>Next Page</button>
+        <button onClick={this.handleSubmit}>Search</button>
+        <div className='list-container'>
+          <ul className="list">
+            {this.state.users.map(user =>
+              <Card user={user} />
+            )}
+          </ul>
+        </div>
+
+        <div>
+          <button className='btn' onClick={this.previousPage}>Previous page</button>
+          <button className='btn' onClick={this.nextPage}>Next Page</button>
+        </div>
       </div>
     );
   }
