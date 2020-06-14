@@ -17,8 +17,8 @@ router.get('/:item/page/:nb', function (req, res, next) {
     });
 });
 
-router.get('/people/:name', function (req, res, next) {
-  const data = axios.get(getPeopleByName(req.params.name))
+router.get('/:item/:name', function (req, res, next) {
+  const data = axios.get(getPeopleByName(req.params.item, req.params.name))
     .then(response => {
       res.json(response.data);
     })
@@ -46,9 +46,7 @@ function getAllPeople() {
   return `${URL}/people/`
 }
 function getAllPeopleByPage(item, page) {
-  // return `${URL}/people/?page=${page}`
   return `${URL}/${item}/?page=${page}`
-
 }
 function getAllPlanetByPage(page) {
   return `${URL}/planets/?page=${page}`
@@ -56,6 +54,6 @@ function getAllPlanetByPage(page) {
 function getAllStarshipByPage(page) {
   return `${URL}/starships/?page=${page}`
 }
-function getPeopleByName(name) {
-  return `${URL}/people/?search=${name}`
+function getPeopleByName(item, name) {
+  return `${URL}/${item}/?search=${name}`
 }

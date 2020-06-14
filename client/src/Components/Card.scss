@@ -1,8 +1,13 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital@1&display=swap');
 
+$color-red:rgba(218, 15, 15, 0.5) ;
+$color-bg: #EBECF0;
+$color-shadow: #BABECC;
+$color-white: #FFF;
+
 body{
-    background-color: #EBECF0;
+    background-color: $color-bg;
 }
 
 .list-container{
@@ -10,21 +15,23 @@ body{
     justify-content: center;
     flex-direction: column;
 }
-
-header{
-    display: flex;
-    justify-content: center;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 700;
-    font-size: 60px;
-    text-shadow: 1px 1px 1px #FFF;
+.title {
+    margin-bottom: 2rem;
+        
+    font-size: 2rem;
+    letter-spacing: 0.1em;
+    font-weight: 700; 
+    // text-transform: uppercase;
+    text-align: center;
+    
     color: rgba(49,69,106,1);
+    text-shadow: 1px 1px 1px $color-white;
 }
 
 .list{
     font-family: 'Poppins', sans-serif;
-    box-shadow: -5px -5px 20px #FFF,
-    5px  5px 20px #BABECC;
+    box-shadow: -5px -5px 20px $color-white,
+    5px  5px 20px $color-shadow;
     padding-inline-start: 0px;
     border-radius: 20px;
     width: 50vw;
@@ -38,17 +45,17 @@ header{
     justify-content: space-between;
 }
 a{
-    text-shadow: 1px 1px 1px #FFF;
+    text-shadow: 1px 1px 1px $color-white;
     color: rgba(49,69,106,1);
     text-decoration: none;
 }
 .list__elem{
     list-style: none;
-    text-shadow: 1px 1px 1px #FFF;
+    text-shadow: 1px 1px 1px $color-white;
     color: rgba(49,69,106,1);
     display: flex;
     justify-content: space-between;
-    padding: 15px 20px 15px 20px ;
+    padding: 11px 20px 11px 20px ;
     font-size: 18px;
     font-weight: 500;
     flex-basis: 80%;
@@ -61,8 +68,8 @@ a{
     }
     &:active{
         box-shadow:
-        inset  1px  1px 2px #BABECC,
-        inset -1px -1px 2px #FFF;
+        inset  1px  1px 2px $color-shadow,
+        inset -1px -1px 2px $color-white;
     }
     &:active:first-child{
         border-top-left-radius: 20px;
@@ -71,35 +78,84 @@ a{
         border-bottom-left-radius: 20px;
         border-bottom-right-radius: 20px;
     }
+    .wrap {
+        display: inline-flex;
+        flex-wrap: wrap;
+        margin-left: 130px;
+        li {
+            margin: 0px 5px 0px 0px;
+        }
+    }
    
 }
-.btn {
-    width: 25vw;
-    height: 50px;
-    border: none;
-    outline: none;
-    border-radius: 20px;
-    background: #EBECF0;
-    box-shadow: 
-      -5px -5px 20px #FFF,
-       5px 5px 20px #BABECC;
-
-    font-size: 18px;
-    margin-top: 20px;
-    letter-spacing: 0.02em;
-    // font-family: 'Noto Sans TC', sans-serif;
-    color: rgb(218, 30, 30);
+.container, .request-container {
+    display: flex;
+    justify-content: space-around;
+    width: 40vw;
+    margin: auto;
+    &__btn {
+        width: 15vw;
+        height: 30px;
+        border: none;
+        outline: none;
+        border-radius: 20px;
+        background: $color-bg;
+        box-shadow: 
+          -5px -5px 20px $color-white,
+           5px 5px 20px $color-shadow;
     
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    &:hover {
-      box-shadow: 
-        -2px -2px 5px  #FFF,
-         2px  2px 5px #BABECC;
-    }
-    &:active {
-      box-shadow:
-        inset  1px  1px 2px  #FFF,
-        inset -1px -1px 2px #BABECC;
-    }
-  }
+        font-size: 18px;
+        margin-top: 20px;
+        letter-spacing: 0.02em;
+        // font-family: 'Noto Sans TC', sans-serif;
+        color: rgb(218, 30, 30);
+        
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        &:hover {
+          box-shadow: 
+            -2px -2px 5px  $color-white,
+             2px  2px 5px $color-shadow;
+        }
+        &:active {
+          box-shadow:
+            inset  1px  1px 2px  $color-white,
+            inset -1px -1px 2px $color-shadow;
+        }
+      }
+      &__btn--search {
+        width: 18vw;
+      }
+}
+.input{
+        width: 200px;
+        height: 10px;
+        padding: 1rem;
+        
+        border: none;
+        outline: none;
+        border-radius: 2rem;
+        background:  $color-bg;
+        box-shadow: 
+          inset  2px  2px  5px $color-shadow,
+          inset -5px -5px 10px $color-white;
+        
+        color: black;
+        
+        font-size: 1rem;
+        letter-spacing: 0.1em;
+        font-family: 'Noto Sans TC', sans-serif;
+        
+        transition: all 0.2s ease-in-out;
+        &::placeholder {
+        font-family: 'Noto Sans TC', sans-serif;
+          color:  $color-red;
+          font-size: 14px;
+          text-shadow: 1px 1px 1px  $color-white;
+        }
+        &:focus {
+          box-shadow: 
+            inset  1px  1px 2px $color-shadow,
+            inset -1px -1px 2px $color-white;
+        }
+      }

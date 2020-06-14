@@ -1,22 +1,30 @@
 import React, { Component } from 'react'
 import './userPage.scss'
 
+import PlanetList from './PlanetList'
+import StarshipList from './StarshipList'
+import PeopleList from './PeopleList'
+
 
 class UserPage extends Component {
+
+    renderList = () => {
+        const { user, request } = this.props.location.state
+        if (request === 'people') {
+            return <PeopleList user={user} />
+        } else if (request === 'planets') {
+            return <PlanetList user={user} request={request} />
+        } else {
+            return <StarshipList user={user} />
+        }
+    }
+
     render() {
         const { user } = this.props.location.state
         return (
             <div className="list-container" >
                 <h2 className='title'>{user.name}</h2>
-                <ul className="list">
-                    <li className="list__elem"><div>Height</div><div>{user.height} cm</div></li>
-                    <li className="list__elem"><div>Weight</div><div>{user.mass} kg</div></li>
-                    <li className="list__elem"><div>Hair color</div><div>{user.hair_color === 'n/a' ? 'It\'s a robot' : user.hair_color}</div></li>
-                    <li className="list__elem"><div>Skin color</div><div>{user.skin_color}</div></li>
-                    <li className="list__elem"><div>Eye color</div><div>{user.eye_color}</div></li>
-                    <li className="list__elem"><div>Birth year</div><div>{user.birth_year}</div></li>
-                    <li className="list__elem"><div>Gender</div><div>{user.gender === 'n/a' ? 'It\'s a robot' : user.gender}</div></li>
-                </ul>
+                {this.renderList()}
             </div >
         )
     }

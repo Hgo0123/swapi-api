@@ -21,7 +21,7 @@ class Card extends Component {
         if (this.state.goToUserPage === true) {
             return <Redirect push to={{
                 pathname: `/${this.props.user.name}`,
-                state: { user: this.props.user }
+                state: { user: this.props.user, request: this.props.request }
             }}></ Redirect>
         }
         return (

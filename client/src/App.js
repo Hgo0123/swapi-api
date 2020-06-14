@@ -10,8 +10,7 @@ class App extends Component {
   state = {
     users: [],
     pages: 1,
-    fillWithPlanet: false,
-    fillWithStarship: false
+    request: 'people',
   };
 
   fillState = (data) => {
@@ -20,16 +19,21 @@ class App extends Component {
     })
   }
   componentDidMount() {
-    fetch(`/personnages/people/page/${this.state.pages}`)
+    fetch(`/personnages/${this.state.request}/page/${this.state.pages}`)
       .then(res => res.json())
       .then(users => this.fillState(users));
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.pages !== this.state.pages) {
-      fetch(`/personnages/page/${this.state.pages}`)
+    if (prevState.pages !== this.state.pages || prevState.request !== this.state.request) {
+      fetch(`/personnages/${this.state.request}/page/${this.state.pages}`)
         .then(res => res.json())
         .then(users => this.fillState(users));
+    }
+    if (prevState.request !== this.state.request) {
+      this.setState({
+        pages: 1
+      })
     }
   }
   nextPage = (event) => {
@@ -53,37 +57,26 @@ class App extends Component {
   }
 
   render() {
-    if (this.state.fillWithPlanet) {
-      fetch(`/personnages/planets/page/${this.state.pages}`)
-        .then(res => res.json())
-        .then(users => this.fillState(users));
-    }
-    if (this.state.fillWithStarship) {
-      fetch(`/personnages/starships/page/${this.state.pages}`)
-        .then(res => res.json())
-        .then(users => this.fillState(users));
-    }
     return (
       <div className="App">
-        <h1>Swapi</h1>
+        <h1 className='title'>Swapi</h1>
 
-        <InputCharacter onChange={this.handleChange} fillState={this.fillState} />
+        <InputCharacter request={this.state.request} fillState={this.fillState} />
         <div className='request-container'>
-          <p className='request-container__btn' onClick={() => this.setState({ fillWithPlanet: !this.state.fillWithPlanet, fillWithStarship: false })}>Search by planet</p>
-          <p className='request-container__btn' onClick={() => this.setState({ fillWithStarship: !this.state.fillWithStarship, fillWithPlanet: false })}>Search by starships</p>
+          <button className='request-container__btn request-container__btn--search' onClick={() => this.setState({ request: 'planets' })}>Search by planet</button>
+          <button className='request-container__btn request-container__btn--search' onClick={() => this.setState({ request: 'starships' })}>Search by starships</button>
         </div>
-        <button onClick={this.handleSubmit}>Search</button>
         <div className='list-container'>
           <ul className="list">
             {this.state.users.map(user =>
-              <Card user={user} />
+              <Card user={user} request={this.state.request} />
             )}
           </ul>
         </div>
 
-        <div>
-          <button className='btn' onClick={this.previousPage}>Previous page</button>
-          <button className='btn' onClick={this.nextPage}>Next Page</button>
+        <div className='container'>
+          <button className='container__btn' onClick={this.previousPage}>Previous page</button>
+          <button className='container__btn' onClick={this.nextPage}>Next Page</button>
         </div>
       </div>
     );
