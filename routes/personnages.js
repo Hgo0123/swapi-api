@@ -8,7 +8,7 @@ const URL = 'https://swapi.dev/api'
 
 router.get('/:item/page/:nb', function (req, res, next) {
 
-  const data = axios.get(getAllPeopleByPage(req.params.item, req.params.nb))
+  const data = axios.get(getAllItemByPage(req.params.item, req.params.nb))
     .then(response => {
       res.json(response.data);
     })
@@ -18,7 +18,7 @@ router.get('/:item/page/:nb', function (req, res, next) {
 });
 
 router.get('/:item/:name', function (req, res, next) {
-  const data = axios.get(getPeopleByName(req.params.item, req.params.name))
+  const data = axios.get(getItemByName(req.params.item, req.params.name))
     .then(response => {
       res.json(response.data);
     })
@@ -28,7 +28,7 @@ router.get('/:item/:name', function (req, res, next) {
 });
 
 router.get('/:id', function (req, res, next) {
-  const data = axios.get(getPeople(req.params.id))
+  const data = axios.get(getItem(req.params.id))
     .then(response => {
       res.json(response.data);
     })
@@ -39,21 +39,12 @@ router.get('/:id', function (req, res, next) {
 
 module.exports = router;
 
-function getPeople(int) {
+function getItem(name) {
   return `${URL}/people/${name}`
 }
-function getAllPeople() {
-  return `${URL}/people/`
-}
-function getAllPeopleByPage(item, page) {
+function getAllItemByPage(item, page) {
   return `${URL}/${item}/?page=${page}`
 }
-function getAllPlanetByPage(page) {
-  return `${URL}/planets/?page=${page}`
-}
-function getAllStarshipByPage(page) {
-  return `${URL}/starships/?page=${page}`
-}
-function getPeopleByName(item, name) {
+function getItemByName(item, name) {
   return `${URL}/${item}/?search=${name}`
 }

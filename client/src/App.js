@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import './App.scss';
-// import './Components/Card.scss';
 
 import Card from './Components/Card';
 import InputCharacter from './Components/InputCharacter';
-
 
 class App extends Component {
   state = {
@@ -23,7 +21,6 @@ class App extends Component {
       .then(res => res.json())
       .then(users => this.fillState(users));
   }
-
   componentDidUpdate(prevProps, prevState) {
     if (prevState.pages !== this.state.pages || prevState.request !== this.state.request) {
       fetch(`/personnages/${this.state.request}/page/${this.state.pages}`)
